@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Children of the Dark Grid — India's Energy Emergency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #0d0f18;
+    --darker: #080a10;
+    --card: #12151f;
+    --border: rgba(255,255,255,0.07);
+    --amber: #f0a500;
+    --amber-dim: rgba(240,165,0,0.12);
+    --dystopia: #c0392b;
+    --dystopia-dim: rgba(192,57,43,0.12);
+    --utopia: #27896a;
+    --utopia-dim: rgba(39,137,106,0.12);
+    --text: #d4cfc4;
+    --muted: #6b6860;
+    --heading: #f0ebe0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.75;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ─── HEADER ─── */
+  .masthead {
+    position: relative;
+    padding: 64px 40px 48px;
+    max-width: 820px;
+    margin: 0 auto;
+    z-index: 1;
+  }
+
+  .masthead-eyebrow {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .masthead-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--amber);
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--heading);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .masthead-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  /* ─── POWER METER ─── */
+  .power-bar-wrap {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 640px;
+  }
+
+  .power-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .power-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: visible;
+    position: relative;
+  }
+
+  .power-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--dystopia), var(--amber), var(--utopia));
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+
+  .power-needle {
+    position: absolute; right: -1px; top: 50%;
+    transform: translateY(-50%);
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px 2px rgba(255,255,255,0.4);
+  }
+
+  .power-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--heading);
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .compass-verdict {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 8px;
+    transition: color 0.4s;
+  }
+
+  /* ─── INTRO TEXT ─── */
+  .intro-block {
+    max-width: 820px;
+    margin: 0 auto 16px;
+    padding: 0 40px;
+    position: relative; z-index: 1;
+  }
+
+  .intro-block p {
+    font-size: 1.02rem;
+    color: var(--text);
+    max-width: 640px;
+    margin-bottom: 12px;
+  }
+
+  .intro-block p.pull {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--heading);
+    border-left: 2px solid var(--amber);
+    padding-left: 20px;
+    margin: 28px 0;
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    max-width: 820px;
+    margin: 48px auto 20px;
+    padding: 0 40px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── THEME CARDS ─── */
+  .cards-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative; z-index: 1;
+  }
+
+  .theme-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .theme-card.leaning-dystopia { border-color: rgba(192,57,43,0.3); }
+  .theme-card.leaning-utopia   { border-color: rgba(39,137,106,0.3); }
+
+  .card-header {
+    padding: 24px 28px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .card-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--heading);
+    line-height: 1.3;
+  }
+
+  .card-subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  .card-toggle-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ─── TOGGLE SWITCH ─── */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50px;
+    padding: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .toggle-btn {
+    padding: 5px 14px;
+    border-radius: 50px;
+    border: none;
+    background: transparent;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Source Serif 4', serif;
+    color: var(--muted);
+  }
+
+  .toggle-btn.active-dystopia {
+    background: var(--dystopia);
+    color: #fff;
+  }
+
+  .toggle-btn.active-utopia {
+    background: var(--utopia);
+    color: #fff;
+  }
+
+  /* ─── CARD BODY ─── */
+  .card-body {
+    padding: 0 28px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .card-body { grid-template-columns: 1fr; }
+    .masthead, .intro-block, .cards-wrap, .section-label { padding-left: 20px; padding-right: 20px; }
+    .card-header { grid-template-columns: 1fr; }
+    .card-toggle-wrap { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+
+  .scenario-panel {
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: all 0.35s;
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
+
+  .scenario-panel.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .scenario-panel.dystopia-panel {
+    background: var(--dystopia-dim);
+    border: 1px solid rgba(192,57,43,0.2);
+  }
+
+  .scenario-panel.utopia-panel {
+    background: var(--utopia-dim);
+    border: 1px solid rgba(39,137,106,0.2);
+  }
+
+  .panel-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: 'Source Serif 4', serif;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .panel-label.dys { color: var(--dystopia); }
+  .panel-label.uto { color: var(--utopia); }
+
+  .panel-icon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .panel-icon.dys { background: rgba(192,57,43,0.25); }
+  .panel-icon.uto { background: rgba(39,137,106,0.25); }
+
+  .panel-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+
+  .panel-body {
+    font-size: 0.82rem;
+    color: var(--text);
+    line-height: 1.65;
+    opacity: 0.85;
+  }
+
+  .panel-detail {
+    margin-top: 10px;
+    font-size: 0.77rem;
+    color: var(--muted);
+    font-style: italic;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* ─── CARD DIVIDER ─── */
+  .card-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 28px 20px;
+  }
+
+  /* ─── VIGNETTE ─── */
+  .vignette-strip {
+    margin: 0 28px 20px;
+    padding: 14px 18px;
+    background: rgba(240,165,0,0.05);
+    border: 1px solid rgba(240,165,0,0.12);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .vignette-strip strong {
+    color: var(--amber);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  /* ─── COMPASS ─── */
+  .compass-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    position: relative; z-index: 1;
+  }
+
+  .compass-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+
+  @media (max-width: 600px) {
+    .compass-card { grid-template-columns: 1fr; }
+    .compass-wrap { padding-left: 20px; padding-right: 20px; }
+  }
+
+  .compass-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--heading);
+    margin-bottom: 10px;
+  }
+
+  .compass-text p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .compass-dial {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .compass-dial svg { width: 100%; height: 100%; }
+
+  /* ─── FOOTER ─── */
+  .footer-note {
+    max-width: 820px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    font-size: 0.74rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── FLICKER ANIMATION ─── */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    42% { opacity: 1; }
+    43% { opacity: 0.85; }
+    44% { opacity: 1; }
+    78% { opacity: 1; }
+    79% { opacity: 0.9; }
+    80% { opacity: 1; }
+  }
+
+  .flicker { animation: flicker 6s infinite; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { animation: fadeIn 0.5s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-eyebrow">Speculative Sociology · India 2030–2040</div>
+  <h1 class="flicker">Children of the <em>Dark Grid</em></h1>
+  <p class="masthead-sub">When energy becomes scarce, childhood itself is restructured. This is not just a question of infrastructure — it is a question of what kind of society emerges from the dark. Explore both the shadow and the unexpected light.</p>
+
+  <div class="power-bar-wrap">
+    <span class="power-label">Societal balance</span>
+    <div class="power-track">
+      <div class="power-fill" id="mainFill" style="width:50%">
+        <div class="power-needle"></div>
+      </div>
+    </div>
+    <div>
+      <div class="power-value" id="powerValue">50 / 50</div>
+      <div class="compass-verdict" id="compassVerdict" style="color:var(--amber);">Uncertain horizon</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro-block">
+  <p>We are not talking about load-shedding as an inconvenience. We are talking about a total restructuring of the <em>social habitus</em> — the habits, values, and ways of being that children absorb unconsciously as they grow. When the grid fails, the invisible architecture of childhood is rebuilt from scratch.</p>
+  <p class="pull">"Every society gets the children its energy policy deserves."</p>
+  <p>The same emergency can produce radically different futures depending on which social forces respond first. Toggle each dimension below to explore where the evidence points — and where the hope might still live.</p>
+</div>
+
+<!-- SECTION LABEL -->
+<div class="section-label">Four dimensions of a changed childhood</div>
+
+<!-- CARDS -->
+<div class="cards-wrap" id="cardsWrap">
+
+  <!-- CARD 1 -->
+  <div class="theme-card" id="card-0">
+    <div class="card-header" onclick="toggleCard(0)">
+      <div>
+        <div class="card-num">Dimension 01</div>
+        <div class="card-title">The New Energy Class Divide</div>
+        <div class="card-subtitle">When kilowatts replace rupees as the primary marker of status</div>
+      </div>
+      <div class="card-toggle-wrap">
+        <div class="toggle-container">
+          <button class="toggle-btn active-dystopia" onclick="setMode(event,0,'dystopia')">Dystopia</button>
+          <button class="toggle-btn" onclick="setMode(event,0,'utopia')">Utopia</button>
+        </div>
+      </div>
+    </div>
+    <div class="vignette-strip">
+      <strong>Scene:</strong> Arjun, 12, carries his school tablet to the neighbourhood solar kiosk every morning. He has a 45-minute charging window before the queue gets too long. His friend Rahul, who lives in the gated colony on the hill, charges overnight and arrives at school with 100% battery. They sit in the same classroom. They are not in the same world.
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      <div class="scenario-panel dystopia-panel active" id="panel-0-dystopia">
+        <div class="panel-label dys"><span class="panel-icon dys">▼</span> Dark reading</div>
+        <div class="panel-heading">The Solar Enclave and the Load-Shedding Clock</div>
+        <div class="panel-body">Wealthy children grow up in micro-grid enclaves where the emergency is a distant news story. The majority have their lives — study hours, social time, sleep rhythms — dictated by a rotating schedule of power availability. Sociologically, energy access becomes a new axis of caste: permanent, invisible, and deeply naturalised by the children who grow up within it.</div>
+        <div class="panel-detail">The danger: a generation of elites who have never experienced the scarcity that defines everyone else's life. Empathy, already thin across class lines, atrophies entirely.</div>
+      </div>
+      <div class="scenario-panel utopia-panel" id="panel-0-utopia">
+        <div class="panel-label uto"><span class="panel-icon uto">▲</span> Light reading</div>
+        <div class="panel-heading">The Reputation Economy and Energy Solidarity</div>
+        <div class="panel-body">Scarcity also produces reciprocity. Historical precedent — from wartime Britain to Kerala's flood recovery — shows that shared hardship can dissolve class barriers faster than any policy. A neighbourhood charging network, managed collectively, may become a rare space where children from different backgrounds actually share something essential. The "power barter" could seed new forms of community trust.</div>
+        <div class="panel-detail">The precondition: institutions that prevent monopolisation of solar capacity by the wealthy. Without that, the solidarity scenario collapses within a generation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="theme-card" id="card-1">
+    <div class="card-header" onclick="toggleCard(1)">
+      <div>
+        <div class="card-num">Dimension 02</div>
+        <div class="card-title">The Return of the Third Space</div>
+        <div class="card-subtitle">Where children go when screens go dark and rooms grow hot</div>
+      </div>
+      <div class="card-toggle-wrap">
+        <div class="toggle-container">
+          <button class="toggle-btn active-dystopia" onclick="setMode(event,1,'dystopia')">Dystopia</button>
+          <button class="toggle-btn" onclick="setMode(event,1,'utopia')">Utopia</button>
+        </div>
+      </div>
+    </div>
+    <div class="vignette-strip">
+      <strong>Scene:</strong> The old stepwell at the edge of the colony has not been used as a water source in forty years. By June, with temperatures at 43°C and no AC, it has become the most popular place in the neighbourhood. Twenty children sit on its ancient stone steps in the late afternoon, doing homework by natural light and sleeping in the cool air that rises from the water below.
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      <div class="scenario-panel dystopia-panel active" id="panel-1-dystopia">
+        <div class="panel-label dys"><span class="panel-icon dys">▼</span> Dark reading</div>
+        <div class="panel-heading">Thermal Migration Without Safety</div>
+        <div class="panel-body">Unplanned congregation of children in unregulated spaces — stepwells, railway underpasses, temple courtyards — creates safety risks that fall disproportionately on the most marginalised. Girls in particular face greater exposure to harassment and violence in informal outdoor spaces. The revival of the "maidan" is not a neutral good if the maidan is not safe for half the children who might use it.</div>
+        <div class="panel-detail">The dangerous assumption: that "returning outdoors" is inherently restorative. It depends entirely on whether public space is safe, maintained, and genuinely accessible to all children.</div>
+      </div>
+      <div class="scenario-panel utopia-panel" id="panel-1-utopia">
+        <div class="panel-label uto"><span class="panel-icon uto">▲</span> Light reading</div>
+        <div class="panel-heading">The Accidental Revival of Embodied Play</div>
+        <div class="panel-body">Screen deprivation may restore something that affluence quietly erased: the unstructured, mixed-age, outdoor childhood that developmental psychologists consider optimal. Gilli-danda, kho-kho, and improvised games require no infrastructure and generate the kind of peer socialisation — negotiation, conflict resolution, physical risk — that no app can replicate. Ancient stepwells re-activated as social hubs reconnect children to a built heritage they would otherwise never encounter.</div>
+        <div class="panel-detail">The evidence: studies of "technology-reduced" childhoods consistently show stronger executive function, social cognition, and resilience outcomes — when outdoor environments are safe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="theme-card" id="card-2">
+    <div class="card-header" onclick="toggleCard(2)">
+      <div>
+        <div class="card-num">Dimension 03</div>
+        <div class="card-title">Education and the Digital Chasm</div>
+        <div class="card-subtitle">What happens to "Digital India" when the power is out</div>
+      </div>
+      <div class="card-toggle-wrap">
+        <div class="toggle-container">
+          <button class="toggle-btn active-dystopia" onclick="setMode(event,2,'dystopia')">Dystopia</button>
+          <button class="toggle-btn" onclick="setMode(event,2,'utopia')">Utopia</button>
+        </div>
+      </div>
+    </div>
+    <div class="vignette-strip">
+      <strong>Scene:</strong> The government school in Malappuram shifts to 5 AM classes to avoid the afternoon blackout. By 6:30, before most parents are fully awake, forty children are already writing by hand in the light of a single solar lamp. The teacher, who trained entirely on digital tools, has had to relearn how to teach without them. She finds, unexpectedly, that she is better at it.
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      <div class="scenario-panel dystopia-panel active" id="panel-2-dystopia">
+        <div class="panel-label dys"><span class="panel-icon dys">▼</span> Dark reading</div>
+        <div class="panel-heading">The Permanent Knowledge Gap</div>
+        <div class="panel-body">Digital infrastructure, once disrupted at the formative years of a generation, creates educational deficits that compound over decades. Children who learn to read and compute without digital tools are not "equally educated" — they are prepared for a world that no longer exists. The "paper-first" movement, however well-intentioned, risks institutionalising disadvantage as pedagogy. The gap between elite digital education and mass analogue education becomes permanent and self-replicating.</div>
+        <div class="panel-detail">Historical parallel: post-partition Pakistan's bifurcation of elite English-medium and mass Urdu-medium schools. The two-tier system, once entrenched, proved nearly impossible to dismantle.</div>
+      </div>
+      <div class="scenario-panel utopia-panel" id="panel-2-utopia">
+        <div class="panel-label uto"><span class="panel-icon uto">▲</span> Light reading</div>
+        <div class="panel-heading">The Rediscovery of Oral and Embodied Knowledge</div>
+        <div class="panel-body">Every civilisation that produced durable knowledge did so primarily through oral tradition until very recently in human history. A forced return to memorisation, storytelling, and oral examination is not only a loss — it is a reconnection to forms of cognition that digital culture systematically atrophied. Night schools reactivate community rhythms. Early-morning classes, counter-intuitively, align with known circadian research showing better retention before 8 AM. Rote memorisation, maligned in CBSE reform circles, may turn out to be the cognitive insurance policy a disrupted society needs.</div>
+        <div class="panel-detail">The proviso: this only holds if analogue education is actively resourced and respected, not simply the default for those who couldn't access anything better.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="theme-card" id="card-3">
+    <div class="card-header" onclick="toggleCard(3)">
+      <div>
+        <div class="card-num">Dimension 04</div>
+        <div class="card-title">Family, Labour, and Enforced Cohesion</div>
+        <div class="card-subtitle">When a single light bulb changes the geometry of family life</div>
+      </div>
+      <div class="card-toggle-wrap">
+        <div class="toggle-container">
+          <button class="toggle-btn active-dystopia" onclick="setMode(event,3,'dystopia')">Dystopia</button>
+          <button class="toggle-btn" onclick="setMode(event,3,'utopia')">Utopia</button>
+        </div>
+      </div>
+    </div>
+    <div class="vignette-strip">
+      <strong>Scene:</strong> By 8 PM, the entire family of five has gathered in the kitchen — the only room with the solar lantern. Grandmother is telling a story. The youngest is asleep in his father's lap. The eldest, 16, was supposed to study for his board exams. He is, instead, listening. He will remember the story for the rest of his life. He will not remember what he was supposed to revise.
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      <div class="scenario-panel dystopia-panel active" id="panel-3-dystopia">
+        <div class="panel-label dys"><span class="panel-icon dys">▼</span> Dark reading</div>
+        <div class="panel-heading">Shortened Childhoods and Gendered Labour</div>
+        <div class="panel-body">Energy scarcity consistently increases the domestic burden on women and children in the Global South. Fetching fuel, manual water pumping, maintaining cooking fires — these tasks are not evenly distributed. Girls, in particular, are pulled from school into survival labour first. The "enforced cohesion" that sounds warm in the abstract is, for many children, enforced work. William Goode's thesis on industrial modernity liberating children from family labour runs in reverse: de-industrialisation re-domesticates them.</div>
+        <div class="panel-detail">The data is consistent: in every documented energy-scarce environment, girls' school attendance drops first and fastest. The "shortened childhood" is gendered before it is anything else.</div>
+      </div>
+      <div class="scenario-panel utopia-panel" id="panel-3-utopia">
+        <div class="panel-label uto"><span class="panel-icon uto">▲</span> Light reading</div>
+        <div class="panel-heading">The Rebuilt Intergenerational Bond</div>
+        <div class="panel-body">The nuclear family's defining feature — private, screened-off individuals sharing a physical but not experiential space — may be the actual casualty. When five people are in the same room with one light, they talk. They listen. Grandparents become repositories of knowledge rather than embarrassing relics. The oral transmission of family history, values, and practical wisdom resumes. Children who grow up in enforced proximity often report, in retrospect, a quality of belonging that their screen-saturated peers describe as absent from their own lives.</div>
+        <div class="panel-detail">The crucial distinction: enforced cohesion is only positive when the family itself is a safe space. For children in abusive or neglectful households, increased proximity is not a gift.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- COMPASS SECTION -->
+<div class="section-label" style="max-width:820px;margin:0 auto 20px;padding:0 40px;">Your reading of the emergency</div>
+
+<div class="compass-wrap">
+  <div class="compass-card" id="compassCard">
+    <div class="compass-text">
+      <h3 id="compassTitle">The horizon is undecided.</h3>
+      <p id="compassDesc">You have not yet shifted the balance. Each of these four dimensions can tip either way — the same emergency that produces a surveillance society can also produce a solidarity society. It depends on which social forces organise first, and which values they carry with them. Toggle the panels above to explore where you think the weight of evidence falls.</p>
+    </div>
+    <div class="compass-dial">
+      <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <circle cx="70" cy="70" r="44" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <!-- Dys arc -->
+        <path id="dysArc" d="M 70 10 A 60 60 0 0 0 10 70" fill="none" stroke="var(--dystopia)" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+        <!-- Uto arc -->
+        <path id="utoArc" d="M 70 10 A 60 60 0 0 1 130 70" fill="none" stroke="var(--utopia)" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+        <!-- Needle -->
+        <line id="needle" x1="70" y1="70" x2="70" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round" transform="rotate(0, 70, 70)" style="transition: transform 0.6s cubic-bezier(0.4,0,0.2,1)"/>
+        <circle cx="70" cy="70" r="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <circle cx="70" cy="70" r="2" fill="white"/>
+        <!-- Labels -->
+        <text x="18" y="75" fill="var(--dystopia)" font-size="8" font-family="sans-serif" opacity="0.7">DARK</text>
+        <text x="104" y="75" fill="var(--utopia)" font-size="8" font-family="sans-serif" opacity="0.7">LIGHT</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-note">
+  <p>Based on sociological frameworks including Bourdieu's <em>habitus</em>, William Goode's theories on nuclear family restructuring, and historical case studies of energy-constrained childhoods across South Asia, Sub-Saharan Africa, and post-war Europe. This is speculative sociology — a tool for thinking, not a forecast. The future it describes is not inevitable in either direction.</p>
+</div>
+
+<script>
+  const states = [0, 0, 0, 0]; // 0 = dystopia, 1 = utopia
+
+  const verdicts = [
+    { label: "Deep crisis", desc: "All four dimensions are trending toward fracture. Without intervention, the emergency accelerates inequality, shortens childhoods, and deepens every existing fault line in Indian society.", color: "var(--dystopia)" },
+    { label: "Troubled", desc: "The weight is on the darker side. Some communities will find unexpected resilience, but the structural forces are not in their favour. Policy intervention is urgent.", color: "#c0692b" },
+    { label: "Uncertain horizon", desc: "The balance is genuinely contested. The same conditions could produce very different outcomes depending on local institutions, leadership, and the values communities choose to organise around.", color: "var(--amber)" },
+    { label: "Conditional hope", desc: "More dimensions lean toward resilience than fracture — but the conditions that enable the lighter reading are fragile and require active maintenance. The hope is real, not guaranteed.", color: "#4a9e6b" },
+    { label: "Unexpected flourishing", desc: "You see an emergency that — with the right social fabric — could strip away the comfortable isolations of modern life and rebuild something more durable. History offers precedents. None of them came easily.", color: "var(--utopia)" },
+  ];
+
+  function setMode(e, cardIndex, mode) {
+    e.stopPropagation();
+    states[cardIndex] = (mode === 'utopia') ? 1 : 0;
+
+    const card = document.getElementById('card-' + cardIndex);
+    const dysPanel  = document.getElementById('panel-' + cardIndex + '-dystopia');
+    const utoPanel  = document.getElementById('panel-' + cardIndex + '-utopia');
+    const btns = card.querySelectorAll('.toggle-btn');
+
+    card.classList.remove('leaning-dystopia','leaning-utopia');
+
+    if (mode === 'utopia') {
+      dysPanel.classList.remove('active');
+      utoPanel.classList.add('active');
+      btns[0].classList.remove('active-dystopia');
+      btns[1].classList.add('active-utopia');
+      card.classList.add('leaning-utopia');
+    } else {
+      utoPanel.classList.remove('active');
+      dysPanel.classList.add('active');
+      btns[1].classList.remove('active-utopia');
+      btns[0].classList.add('active-dystopia');
+      card.classList.add('leaning-dystopia');
+    }
+
+    updateCompass();
+  }
+
+  function updateCompass() {
+    const score = states.reduce((a,b) => a+b, 0); // 0-4
+    const pct = (score / 4) * 100;
+
+    document.getElementById('mainFill').style.width = (20 + pct * 0.6) + '%';
+    document.getElementById('powerValue').textContent =
+      Math.round((1 - score/4)*100) + ' / ' + Math.round((score/4)*100);
+
+    const v = verdicts[score];
+    document.getElementById('compassVerdict').textContent = v.label;
+    document.getElementById('compassVerdict').style.color = v.color;
+    document.getElementById('compassTitle').textContent = v.label + '.';
+    document.getElementById('compassDesc').textContent = v.desc;
+
+    const rotation = -90 + (score / 4) * 180;
+    document.getElementById('needle').setAttribute('transform', `rotate(${rotation}, 70, 70)`);
+  }
+
+  function toggleCard(index) {
+  }
+</script>
+</body>
+</html>
